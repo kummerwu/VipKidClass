@@ -1,0 +1,18 @@
+﻿<Window x:Class="WpfApp3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp3"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="430" Width="371" >
+    <Grid>
+        <Button Content="Button" HorizontalAlignment="Left" Height="45" Margin="265,93,0,0" VerticalAlignment="Top" Width="70" Click="Button_Click"/>
+        <TextBox Name="TxtTeacher" HorizontalAlignment="Left" Height="45" Margin="117,93,0,0" TextWrapping="Wrap" Text="Kara H" VerticalAlignment="Top" Width="128"/>
+        <Label Content="TeacherName" HorizontalAlignment="Left" Height="45" Margin="0,93,0,0" VerticalAlignment="Top" Width="112"/>
+        <TextBox Name="TxtTime" HorizontalAlignment="Left" Height="45" Margin="117,41,0,0" TextWrapping="Wrap" Text="13:0:0" VerticalAlignment="Top" Width="128"/>
+        <Label Content="开抢时间" HorizontalAlignment="Left" Height="45" Margin="0,41,0,0" VerticalAlignment="Top" Width="112"/>
+        <TextBox Name="TxtLog" HorizontalAlignment="Left" Height="216" Margin="10,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="325"/>
+
+    </Grid>
+</Window>
