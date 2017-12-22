@@ -28,6 +28,13 @@ namespace WpfApp3
         public MainWindow()
         {
             InitializeComponent();
+            string[] ts = new string[100];
+            for(int i = 0;i<ts.Length;i++)
+            {
+                ts[i] = Log.NOW;
+                Thread.Sleep(1);
+            }
+            //string t = Log.NOW;
             
 
         }

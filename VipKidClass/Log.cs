@@ -10,23 +10,34 @@ namespace WpfApp3
     class Log
     {
         public static MainWindow box = null;
+        public static string NOW
+        {
+            get
+            {
+                return DateTime.Now.ToString("HH:mm:ss:fff");
+            }
+        }
         public static void D(string fmt,params object[] args)
         {
-            if(box!=null)
-            {
-                string inf =DateTime.Now.ToLongTimeString()+ string.Format(fmt, args)+"\r\n";
-                box.Dispatcher.Invoke(new Action(()=>box.ShowLog(inf)));
-                //box.AppendText(inf + "\r\n");
-            }
+            string inf =  NOW + string.Format(fmt, args) + "\r\n";
+            LogRec(inf);
         }
         public static void E(Exception e)
         {
-            string inf = "Exception Happend======================\r\n" + e.Message + "\r\n" + e.StackTrace + "\r\nException End===================\r\n";
+            string inf = NOW + "Exception Happend======================\r\n" + e.Message + "\r\n" + e.StackTrace + "\r\nException End===================\r\n";
+            LogRec(inf);
+        }
+
+        private static void LogRec(string inf)
+        {
             if (box != null)
             {
-                box.Dispatcher.Invoke(new Action(() => box.ShowLog(DateTime.Now.ToLongTimeString()+ inf)));
+                box.Dispatcher.Invoke(new Action(() => box.ShowLog(inf)));
             }
+            System.Diagnostics.Debug.WriteLine(inf);
+            System.IO.File.AppendAllText("./VipKid.log", inf);
         }
+
         public static void E(string fmt, params object[] args)
         {
             D(fmt, args);
