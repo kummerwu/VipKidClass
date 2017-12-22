@@ -16,6 +16,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace WpfApp3
 {
@@ -127,7 +128,7 @@ namespace WpfApp3
             DateTime now = DateTime.Now;
             int hour=13, min=0, sec=0;
             string time = TxtTime.Text;
-            string[] ts = time.Split(':');
+            string[] ts = time.Split(new char[] { ':' ,'：','-','-'});
             if(ts.Length==3)
             {
                 hour = int.Parse(ts[0]);
@@ -138,7 +139,8 @@ namespace WpfApp3
             try
             {
                 VIPKid vip = new VIPKid("13655190156", "asdf1234", teacher,chooseTime);
-                vip.Run();
+                Thread thread = new Thread(() => { vip.Run(); });
+                thread.Start();
             }catch(Exception ee)
             {
                 Log.E(ee);

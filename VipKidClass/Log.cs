@@ -12,21 +12,19 @@ namespace WpfApp3
         public static MainWindow box = null;
         public static void D(string fmt,params object[] args)
         {
-            System.Diagnostics.Debug.WriteLine(fmt, args);
             if(box!=null)
             {
-                string inf = string.Format(fmt, args)+"\r\n";
+                string inf =DateTime.Now.ToLongTimeString()+ string.Format(fmt, args)+"\r\n";
                 box.Dispatcher.Invoke(new Action(()=>box.ShowLog(inf)));
                 //box.AppendText(inf + "\r\n");
             }
         }
         public static void E(Exception e)
         {
-            System.Diagnostics.Debug.WriteLine(e.Message);
+            string inf = "Exception Happend======================\r\n" + e.Message + "\r\n" + e.StackTrace + "\r\nException End===================\r\n";
             if (box != null)
             {
-                box.Dispatcher.Invoke(new Action(() => box.ShowLog(e.Message + "\r\n")));
-                
+                box.Dispatcher.Invoke(new Action(() => box.ShowLog(DateTime.Now.ToLongTimeString()+ inf)));
             }
         }
         public static void E(string fmt, params object[] args)
