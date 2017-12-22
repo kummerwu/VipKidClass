@@ -72,6 +72,7 @@ namespace WpfApp3
         }
         public void Run()
         {
+            
             d = new ChromeDriver("./");
             wait = new WebDriverWait(d, TimeSpan.FromSeconds(20));
             shortWait = new WebDriverWait(d, TimeSpan.FromSeconds(4));
@@ -84,15 +85,20 @@ namespace WpfApp3
             //FindTeacher();
             //ChooseClass();
             //state = StateMachine.Login;
+            ts = TimeSpan.Zero;
             ChooseTeacherClass();
+
+            Log.D("获得Text总共耗时：{0}毫秒", ts.TotalMilliseconds);
         }
        
         private IWebElement FindElement(By by,string inf)
         {
-            Log.D("-- 查找元素:"+inf);
+            Log.D("《-- 查找元素:"+inf);
             try
             {
-                return d.FindElement(by);
+                var tmp = d.FindElement(by);
+                Log.D("返回查找元素:" + inf+"--》");
+                return tmp;
             }
             catch(Exception e)
             {
@@ -218,7 +224,9 @@ namespace WpfApp3
                     var tmpTable = FindElement(By.XPath(tableXPath), "课程表");
                     if (tmpTable != null)
                     {
-                        string all = tmpTable.Text;
+                        Log.D("<<BEGIN GetText");
+                        string all = GetTxt(tmpTable);
+                        Log.D("GetText  END>>");
                         return all.Contains("可预约");
                     }
                 }catch(Exception e)
@@ -240,7 +248,7 @@ namespace WpfApp3
 
         private List<IWebElement> GetColByRow(IWebElement row)
         {
-            Log.D("获得所有列：" + row.Text);
+            Log.D("获得所有列：" + GetTxt(row));
             List<IWebElement> cols = new List<IWebElement>();
             cols.AddRange(row.FindElements(By.TagName("td")));
             Log.D("获得所有列结束，总共有：" + cols.Count);
@@ -333,6 +341,16 @@ namespace WpfApp3
                 }
             }
         }
+
+        TimeSpan ts = TimeSpan.Zero;
+        private string GetTxt(IWebElement elm)
+        {
+            DateTime n1 = DateTime.Now;
+            string txt = elm.Text;
+            DateTime n2 = DateTime.Now;
+            ts += (n2 - n1);
+            return txt;
+        }
         private bool ChooseOneDayClass(int day)
         {
             Log.D("开始选择星期{0}的课程===========",day+1);
@@ -346,39 +364,42 @@ namespace WpfApp3
                 IWebElement row = rows[ts];
                 List<IWebElement> cols = GetColByRow(row);
                 Log.D("检查时间段的状态：星期{0},时间段：{1}-{2}",day+1,ts,t);
-                Log.D("状态为：列数{0},row.Text={1},col.Txt={2}", cols.Count, row.Text, cols[day].Text);
+                Log.D("状态为：列数{0},row.Text={1},col.Txt={2}", cols.Count, GetTxt(row), GetTxt(cols[day]));
                 if (cols.Count > day &&
-                    row.Text.Contains(t) &&
-                    cols[day].Text.Contains("可预约"))
+                    GetTxt(row).Contains(t) &&
+                    GetTxt(cols[day]).Contains("可预约"))
                 {
-                    Log.D("发现可预约时间段: 星期{0}  TS:{1}-{2}，开始点击", day+1, ts, t);
-                    cols[day].Click();
-                    Thread.Sleep(50);
-
-                    //一路点击确认
-                    ClickConfirmAllButton();
-                    
-                    Log.D("Choose Day: 星期{0}  TS:{1}-{2}", day+1, ts, t);
-
-                    //不健壮？？？等待刷新表格状态,状态应该变为==非可预约
-                    Log.D("确认结果，等待页面更新");
-                    try
+                    if (false)
                     {
-                        shortWait.Until((drv) =>
+                        Log.D("发现可预约时间段: 星期{0}  TS:{1}-{2}，开始点击", day + 1, ts, t);
+                        cols[day].Click();
+                        Thread.Sleep(50);
+
+                        //一路点击确认
+                        ClickConfirmAllButton();
+
+                        Log.D("Choose Day: 星期{0}  TS:{1}-{2}", day + 1, ts, t);
+
+                        //不健壮？？？等待刷新表格状态,状态应该变为==非可预约
+                        Log.D("确认结果，等待页面更新");
+                        try
                         {
-                            rows = GetAvaibleClassRows();
-                            row = rows[ts];
-                            cols = GetColByRow(row);
-                            Log.D("状态为：列数{0},row.Text={1},col.Txt={2}", cols.Count, row.Text, cols[day].Text);
-                            return !cols[day].Text.Contains("可预约");
-                        });
-                        Log.D("确认结果，页面已更新");
-                    }catch(Exception ee)
-                    {
-                        Log.E(ee);
-                        Log.D("确认结果失败，放弃本次操作");
+                            shortWait.Until((drv) =>
+                            {
+                                rows = GetAvaibleClassRows();
+                                row = rows[ts];
+                                cols = GetColByRow(row);
+                                Log.D("状态为：列数{0},row.Text={1},col.Txt={2}", cols.Count, GetTxt(row), GetTxt(cols[day]));
+                                return !GetTxt(cols[day]).Contains("可预约");
+                            });
+                            Log.D("确认结果，页面已更新");
+                        }
+                        catch (Exception ee)
+                        {
+                            Log.E(ee);
+                            Log.D("确认结果失败，放弃本次操作");
+                        }
                     }
-                    
                     return true;
                 }
                     
