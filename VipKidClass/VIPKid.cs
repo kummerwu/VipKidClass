@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using VipKidClass;
 
 namespace WpfApp3
 {
@@ -24,8 +25,10 @@ namespace WpfApp3
         WebDriverWait shortWait;
         DateTime startTime = DateTime.Now;
         string aUser, aPass, aTeacher;
-        public VIPKid(string u,string p,string t,DateTime time)
+        int Mode = 1;
+        public VIPKid(string u,string p,string t,DateTime time,int mode)
         {
+            Mode = mode;
             for(int i = 0;i<DAYS.Length;i++)
             {
                 DAYS[i]--;//索引从0开始，星期一的索引是0，而不是1，调整一下
@@ -65,8 +68,23 @@ namespace WpfApp3
                 else
                 {
                     Log.D("开始抢课！");
-                    ChooseClass();
+                    ChooseClassByMode(Mode);
                     break;
+                }
+            }
+        }
+        void FindTeacherSafe()
+        {
+            while(true)
+            {
+                try
+                {
+                    FindTeacher();
+                    return;
+                }
+                catch(Exception ee)
+                {
+                    Log.E(ee);
                 }
             }
         }
@@ -80,7 +98,7 @@ namespace WpfApp3
 
             Login();
             PreSchedule();
-            FindTeacher();
+            FindTeacherSafe();
             Log.D("登录成功，等待开始抢课############");
             //FindTeacher();
             //ChooseClass();
@@ -89,6 +107,7 @@ namespace WpfApp3
             ChooseTeacherClass();
 
             Log.D("获得Text总共耗时：{0}毫秒", ts.TotalMilliseconds);
+            Log.D("自动选课结束@@@@@@@@@@@@@@@@@@@@@@");
         }
        
         private IWebElement FindElement(By by,string inf)
@@ -193,7 +212,7 @@ namespace WpfApp3
             //选择老师
             Log.D("选择老师:"+aTeacher+"============================");
             string XPath_Teacher = string.Format("//div[@id='js-teacher-list']/*/p[text()='{0}']", aTeacher);
-            wait.Until((drv) => { return FindElement(By.XPath(XPath_Teacher), "老师列表-选择") != null; });
+            shortWait.Until((drv) => { return FindElement(By.XPath(XPath_Teacher), "老师列表-选择") != null; });
             var teacherBox = FindElement(By.XPath(XPath_Teacher), "老师列表-选择");
             if (teacherBox != null)
             {
@@ -203,7 +222,7 @@ namespace WpfApp3
 
             //等待Loading完成
             System.Threading.Thread.Sleep(50);
-            wait.Until((drv) => 
+            shortWait.Until((drv) => 
             {
                 string loadingXPath = @"//*[@id='js-schedule-table-body']/div/div[@class='loading hide']";
                 return FindElement(By.XPath(loadingXPath), "loading界面") != null;
@@ -255,6 +274,56 @@ namespace WpfApp3
             return cols;
         }
 
+        //获得一个可预约课程
+        private IWebElement GetAvaibleClass(int mode)
+        {
+            Log.D("检查星期{0}的课程",mode+1);
+            ClassInf inf = new ClassInf();
+            inf.Init(aTeacher, startTime);
+            IClassXPath classes = inf.GetClass(mode);
+            try
+            {
+                string[] xpaths = classes.ClassXPaths;
+                IWebElement[] elms = new IWebElement[xpaths.Length];
+                string[] txts = new string[xpaths.Length];
+                for(int i = 0;i<xpaths.Length;i++)
+                {
+                    elms[i] = FindElement(By.XPath(xpaths[i]),"查找i节课："+i);
+                    if (elms[i] != null)
+                    {
+                        txts[i] = elms[i].Text;
+                        if (txts[i].Contains("可预约"))
+                        {
+                            Log.D("发现可预约课程：时间：星期{0},课时i={1},xpath={2},txt={3}",mode+1,i,xpaths[i],txts[i]);
+                            return elms[i];
+                        }
+                    }
+                }
+            }
+            catch(Exception ee)
+            {
+                Log.E(ee);
+            }
+            return null;
+        }
+
+        private void ChooseClassByMode(int mode)
+        {
+            Log.D("开始选课");
+            ChooseTeacher();
+            IWebElement c = GetAvaibleClass(mode);
+            if(c!=null)
+            {
+                Log.D("发现可预约时间段: 星期{0}  TS:{1}-{2}，开始点击", mode+1,"?","?");
+                c.Click();
+                Thread.Sleep(50);
+
+                //一路点击确认
+                ClickConfirmAllButton();
+
+                
+            }
+        }
         private void ChooseClass()
         {
             Log.D("开始选课=========================");

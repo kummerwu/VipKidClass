@@ -7,12 +7,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="430" Width="371" >
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Height="45" Margin="265,93,0,0" VerticalAlignment="Top" Width="70" Click="Button_Click"/>
-        <TextBox Name="TxtTeacher" HorizontalAlignment="Left" Height="45" Margin="117,93,0,0" TextWrapping="Wrap" Text="Kara H" VerticalAlignment="Top" Width="128"/>
-        <Label Content="TeacherName" HorizontalAlignment="Left" Height="45" Margin="0,93,0,0" VerticalAlignment="Top" Width="112"/>
-        <TextBox Name="TxtTime" HorizontalAlignment="Left" Height="45" Margin="117,41,0,0" TextWrapping="Wrap" Text="13:0:0" VerticalAlignment="Top" Width="128"/>
-        <Label Content="开抢时间" HorizontalAlignment="Left" Height="45" Margin="0,41,0,0" VerticalAlignment="Top" Width="112"/>
-        <TextBox Name="TxtLog" HorizontalAlignment="Left" Height="216" Margin="10,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="325"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="128*"/>
+            <ColumnDefinition Width="35*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Button" HorizontalAlignment="Left" Height="45" Margin="227.189,93,0,0" VerticalAlignment="Top" Width="70" Click="Button_Click" Grid.ColumnSpan="2" Grid.Column="1"/>
+
+        <TextBox Name="TxtTeacher" HorizontalAlignment="Left" Height="45" Margin="79.189,93,0,0" TextWrapping="Wrap" Text="Kara H" VerticalAlignment="Top" Width="128" Grid.Column="1"/>
+        <Label Content="TeacherName" HorizontalAlignment="Left" Height="45" Margin="0,93,0,0" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2"/>
+
+        <TextBox Name="TxtTime" HorizontalAlignment="Left" Height="45" Margin="79.189,41,0,0" TextWrapping="Wrap" Text="12:0:0" VerticalAlignment="Top" Width="128" Grid.Column="1"/>
+        <Label Content="开抢时间" HorizontalAlignment="Left" Height="45" Margin="0,41,0,0" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2"/>
+
+        <TextBox Name="TxtLog" HorizontalAlignment="Left" Height="216" Margin="10,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="325" Grid.ColumnSpan="3"/>
+
+        <Label Content="星期" HorizontalAlignment="Left" Height="45" Margin="224,10,0,0" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <TextBox Name="TxtWeek" HorizontalAlignment="Left" Height="30" Margin="260,45,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="100" Grid.ColumnSpan="3"/>
 
     </Grid>
 </Window>

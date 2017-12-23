@@ -34,6 +34,8 @@ namespace WpfApp3
                 ts[i] = Log.NOW;
                 Thread.Sleep(1);
             }
+            string fakeT = (DateTime.Now + new TimeSpan(0, 1, 0)).ToString("HH:mm:ss");
+            TxtTime.Text = fakeT;
             //string t = Log.NOW;
             
 
@@ -142,10 +144,11 @@ namespace WpfApp3
                 min = int.Parse(ts[1]);
                 sec = int.Parse(ts[2]);
             }
+            int mode = int.Parse(TxtWeek.Text);mode = mode + 1;if (mode < 0) mode = 0;if (mode > 6) mode = 6;
             DateTime chooseTime = new DateTime(now.Year, now.Month, now.Day, hour, min, sec);
             try
             {
-                VIPKid vip = new VIPKid("13655190156", "asdf1234", teacher,chooseTime);
+                VIPKid vip = new VIPKid("13655190156", "asdf1234", teacher,chooseTime,mode);
                 Thread thread = new Thread(() => { vip.Run(); });
                 thread.Start();
             }catch(Exception ee)

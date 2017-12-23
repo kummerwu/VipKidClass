@@ -10,6 +10,7 @@ namespace WpfApp3
     class Log
     {
         public static MainWindow box = null;
+        public static string LogFile = "./vipkid_"+DateTime.Now.ToString("HH_mm_ss_fff")+".log";
         public static string NOW
         {
             get
@@ -35,7 +36,7 @@ namespace WpfApp3
                 box.Dispatcher.Invoke(new Action(() => box.ShowLog(inf)));
             }
             System.Diagnostics.Debug.WriteLine(inf);
-            System.IO.File.AppendAllText("./VipKid.log", inf);
+            System.IO.File.AppendAllText(LogFile, inf);
         }
 
         public static void E(string fmt, params object[] args)
