@@ -36,6 +36,10 @@ namespace WpfApp3
             }
             string fakeT = (DateTime.Now + new TimeSpan(0, 1, 0)).ToString("HH:mm:ss");
             TxtTime.Text = fakeT;
+            Top = 0;// 100 * App.Week-100;
+            Left = 150*(App.Week-1);
+
+            TxtWeek.Text = App.Week.ToString();
             //string t = Log.NOW;
             
 
@@ -155,6 +159,11 @@ namespace WpfApp3
             {
                 Log.E(ee);
             }
+        }
+
+        private void TxtWeek_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

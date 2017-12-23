@@ -5,25 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="430" Width="371" >
+        Title="MainWindow" Height="430" Width="200" >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="19*"/>
-            <ColumnDefinition Width="128*"/>
-            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="303*"/>
+            <ColumnDefinition Width="96*"/>
         </Grid.ColumnDefinitions>
-        <Button Content="Button" HorizontalAlignment="Left" Height="45" Margin="227.189,93,0,0" VerticalAlignment="Top" Width="70" Click="Button_Click" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <Button Content="Button" HorizontalAlignment="Left" Height="28" Margin="27,5,0,0" VerticalAlignment="Top" Width="41" Click="Button_Click" Grid.Column="2"/>
 
-        <TextBox Name="TxtTeacher" HorizontalAlignment="Left" Height="45" Margin="79.189,93,0,0" TextWrapping="Wrap" Text="Kara H" VerticalAlignment="Top" Width="128" Grid.Column="1"/>
-        <Label Content="TeacherName" HorizontalAlignment="Left" Height="45" Margin="0,93,0,0" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2"/>
+        <TextBox Name="TxtTeacher" HorizontalAlignment="Left" Height="16" Margin="8,84,0,0" TextWrapping="Wrap" Text="Kara H" VerticalAlignment="Top" Width="105" Grid.ColumnSpan="3"/>
+        <Label Content="TeacherName" HorizontalAlignment="Left" Height="29" Margin="0,57,0,0" VerticalAlignment="Top" Width="105" Grid.ColumnSpan="3"/>
 
-        <TextBox Name="TxtTime" HorizontalAlignment="Left" Height="45" Margin="79.189,41,0,0" TextWrapping="Wrap" Text="12:0:0" VerticalAlignment="Top" Width="128" Grid.Column="1"/>
-        <Label Content="开抢时间" HorizontalAlignment="Left" Height="45" Margin="0,41,0,0" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2"/>
+        <TextBox Name="TxtTime" HorizontalAlignment="Left" Height="18" Margin="5,37,0,0" TextWrapping="Wrap" Text="12:0:0" VerticalAlignment="Top" Width="128" Grid.ColumnSpan="3"/>
+        <Label Content="开抢时间" HorizontalAlignment="Left" Height="24" Margin="0,8,0,0" VerticalAlignment="Top" Width="69" Grid.ColumnSpan="2"/>
 
-        <TextBox Name="TxtLog" HorizontalAlignment="Left" Height="216" Margin="10,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="325" Grid.ColumnSpan="3"/>
+        <TextBox Name="TxtLog" HorizontalAlignment="Left" Height="216" Margin="10,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="137" Grid.ColumnSpan="3"/>
 
-        <Label Content="星期" HorizontalAlignment="Left" Height="45" Margin="224,10,0,0" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2" Grid.Column="1"/>
-        <TextBox Name="TxtWeek" HorizontalAlignment="Left" Height="30" Margin="260,45,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="100" Grid.ColumnSpan="3"/>
+        <Label Content="星期" HorizontalAlignment="Left" Height="24" Margin="10,106,0,0" VerticalAlignment="Top" Width="59" Grid.ColumnSpan="3"/>
+        <TextBox Name="TxtWeek" HorizontalAlignment="Left" Height="24" Margin="20,106,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="48" TextChanged="TxtWeek_TextChanged" Grid.Column="2"/>
 
     </Grid>
 </Window>
